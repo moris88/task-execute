@@ -1,4 +1,5 @@
 import SftpClient from 'ssh2-sftp-client'
+import { Logger } from '@/libs'
 
 // Funzione per caricare un file su SFTP
 export async function uploadToSftp(
@@ -14,9 +15,9 @@ export async function uploadToSftp(
   try {
     await sftp.connect({ host, port, username: user, password })
     await sftp.put(localFilePath, remoteFilePath)
-    console.log(`File caricato con successo su SFTP: ${remoteFilePath}`)
+    Logger.info(`File caricato con successo su SFTP: ${remoteFilePath}`)
   } catch (error: any) {
-    console.error(`Errore nel caricamento su SFTP: ${error.message}`)
+    Logger.err(`Errore nel caricamento su SFTP: ${error.message}`)
   } finally {
     sftp.end()
   }
@@ -36,9 +37,9 @@ export async function downloadFromSftp(
   try {
     await sftp.connect({ host, port, username: user, password })
     await sftp.get(remoteFilePath, localFilePath)
-    console.log(`File scaricato con successo da SFTP: ${localFilePath}`)
+    Logger.info(`File scaricato con successo da SFTP: ${localFilePath}`)
   } catch (error: any) {
-    console.error(`Errore nel download da SFTP: ${error.message}`)
+    Logger.err(`Errore nel download da SFTP: ${error.message}`)
   } finally {
     sftp.end()
   }

@@ -4,5 +4,5 @@ import { Logger } from '@/libs'
 
 dotenv.config()
 
-Logger.info('Esecuzione del programma...')
+Logger.info(`Esecuzione del programma...`)
 integration()

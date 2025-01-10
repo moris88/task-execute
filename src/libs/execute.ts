@@ -1,5 +1,4 @@
-import { InputTask, OutputTask, Task } from "@/types"
-
+import { InputTask, OutputTask, Task } from '@/types'
 
 async function tasksInSequence(
   tasks: Task[]
@@ -8,14 +7,11 @@ async function tasksInSequence(
   let previousResult: InputTask = { results: [], args: null }
 
   for (const task of tasks) {
-    try {
-      // Passa il risultato del tasany precedente come input al tasany corrente
-      const result = await task(previousResult)
-      results.push(result)
-      previousResult = { results, args: result } // Aggiorna il risultato precedente
-    } catch (error) {
-      throw error // Rilancia l'errore per fermare l'esecuzione
-    }
+    // Passa il risultato del tasany precedente come input al tasany corrente
+    const result = await task(previousResult)
+    results.push(result)
+    previousResult = { results, args: result }
+    // Aggiorna il risultato precedente
   }
 
   return { results }
@@ -27,7 +23,7 @@ async function tasksInParallel(
   const results: OutputTask[] = []
   const errors: (Error | null)[] = []
 
-  const promises = tasks.map(async (task, index) => {
+  const promises = tasks.map(async (task) => {
     try {
       return { result: await task(null), error: null } // Passa null come input
     } catch (error) {
@@ -47,18 +43,18 @@ async function tasksInParallel(
   return { results, errors }
 }
 
-export type ExecutionMode = 'sequential' | 'parallel'
+export type ExecutionMode = `sequential` | `parallel`
 
 export async function tasks(
   tasks: Task[],
-  mode: ExecutionMode = 'parallel'
+  mode: ExecutionMode = `parallel`
 ): Promise<{ results: OutputTask[]; errors?: (Error | null)[] }> {
   switch (mode) {
-    case 'sequential':
-      return tasksInSequence(tasks)
-    case 'parallel':
-      return tasksInParallel(tasks)
-    default:
-      throw new Error('Invalid execution mode')
+  case `sequential`:
+    return tasksInSequence(tasks)
+  case `parallel`:
+    return tasksInParallel(tasks)
+  default:
+    throw new Error(`Invalid execution mode`)
   }
 }

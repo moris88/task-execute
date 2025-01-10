@@ -1,6 +1,7 @@
 import csv from 'csv-parser'
 import fs from 'fs'
 import { createObjectCsvWriter } from 'csv-writer'
+import { Logger } from '@/libs'
 
 // Funzione per convertire CSV in JSON
 export async function csvToJson(csvFilePath: string, jsonFilePath: string) {
@@ -9,24 +10,24 @@ export async function csvToJson(csvFilePath: string, jsonFilePath: string) {
 
     fs.createReadStream(csvFilePath)
       .pipe(csv())
-      .on('data', (data) => results.push(data))
-      .on('end', () => {
+      .on(`data`, (data) => results.push(data))
+      .on(`end`, () => {
         fs.writeFileSync(jsonFilePath, JSON.stringify(results, null, 2))
-        console.log(`JSON scritto con successo in ${jsonFilePath}`)
+        Logger.info(`JSON scritto con successo in ${jsonFilePath}`)
       })
   } catch (error) {
-    console.error('Errore nella scrittura del JSON:', error)
+    Logger.err(`Errore nella scrittura del JSON:`, error)
   }
 }
 
 // Funzione per convertire JSON in CSV
 export async function jsonToCsv(jsonFilePath: string, csvFilePath: string) {
   try {
-    const jsonData = JSON.parse(fs.readFileSync(jsonFilePath, 'utf-8'))
+    const jsonData = JSON.parse(fs.readFileSync(jsonFilePath, `utf-8`))
 
     // Assicurati che jsonData sia un array
     if (!Array.isArray(jsonData)) {
-      throw new Error('Il file JSON deve contenere un array di oggetti.')
+      throw new Error(`Il file JSON deve contenere un array di oggetti.`)
     }
 
     // Estrai le intestazioni dalla prima voce dell'array
@@ -42,8 +43,8 @@ export async function jsonToCsv(jsonFilePath: string, csvFilePath: string) {
     })
 
     await csvWriter.writeRecords(jsonData)
-    console.log(`CSV scritto con successo in ${csvFilePath}`)
+    Logger.info(`CSV scritto con successo in ${csvFilePath}`)
   } catch (error) {
-    console.error('Errore nella scrittura del CSV:', error)
+    Logger.err(`Errore nella scrittura del CSV:`, error)
   }
 }
