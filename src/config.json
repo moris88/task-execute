@@ -1,0 +1,11 @@
+{
+  "locale": "it",
+  "cron": "*/2 * * * *",
+  "start": "immediately",
+  "end": "never",
+  "timeout": 60000,
+  "retry": {
+    "maxAttempts": 3,
+    "delay": 5000
+  }
+}

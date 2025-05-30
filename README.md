@@ -29,6 +29,22 @@ npm start
 Per eseguire l'applicazione con Docker, esegui i seguenti comandi:
 
 ```bash
-docker build -t mio-progetto-node .
-docker run -p 3000:3000 mio-progetto-node
+npm run init
 ```
+
+Questo comando creerà un'immagine Docker e avvierà un container con l'applicazione in esecuzione.
+Per fermare il container, esegui:
+
+```bash
+npm run stop
+```
+
+## CLI
+
+Per interagire con l'applicazione tramite la CLI, puoi utilizzare i seguenti comandi:
+
+```bash
+npm run cli
+```
+
+Questo comando avvierà un'interfaccia a riga di comando per interagire con l'applicazione.

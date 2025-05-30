@@ -1,6 +1,11 @@
-import { Task } from '@/types'
-import task1 from './task1'
-// import task2 from './task2'
-import task3 from './task3'
+import { TaskList } from '@/lib'
 
-export const tasks: Task[] = [task1, task3]
+import { test } from './test'
+
+export const tasks: TaskList[] = [
+  {
+    id: 1,
+    tasks: [test],
+    type: 'sequential',
+  },
+]

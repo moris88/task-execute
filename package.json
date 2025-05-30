@@ -1,43 +1,66 @@
 {
-  "name": "task-execute",
+  "name": "task-executor",
   "version": "1.0.0",
-  "main": "dist/index.js",
-  "scripts": {
-    "build": "esbuild src/index.ts --bundle --platform=node --target=node20 --minify --outfile=dist/index.js",
-    "start": "node dist/index.js",
-    "dev": "ts-node -r tsconfig-paths/register src/index.ts",
-    "eslint": "eslint src"
+  "type": "commonjs",
+  "private": true,
+  "files": [
+    "dist",
+    "commands",
+    "src",
+    "logs"
+  ],
+  "engines": {
+    "node": ">=22.0.0"
   },
-  "keywords": [],
+  "main": "dist/index.js",
+  "description": "A template for TypeScript projects with task scheduling capabilities.",
+  "keywords": [
+    "typescript",
+    "template",
+    "task"
+  ],
+  "license": "ISC",
   "author": {
     "name": "Maurizio Tolomeo",
-    "email": "maurizio.tolomeo@outlook.it"
+    "email": "maurizio.tolomeo@outlook.it",
+    "url": "https://www.mauriziotolomeo.it"
   },
-  "license": "ISC",
-  "description": "",
+  "scripts": {
+    "lint": "eslint src",
+    "build": "node esbuild.config.mjs",
+    "start": "ts-node -r tsconfig-paths/register src/main.ts",
+    "cli": "ts-node -r tsconfig-paths/register cli/cli.ts",
+    "init": "docker-compose up -d --build",
+    "stop": "docker-compose down && docker volume rm task-executor_task-manager_logs"
+  },
   "devDependencies": {
-    "@eslint/js": "^9.17.0",
+    "@eslint/js": "^9.28.0",
+    "@types/inquirer": "^9.0.8",
+    "@types/node": "^22.15.29",
+    "@types/node-schedule": "^2.1.7",
     "@types/ftp": "^0.3.36",
-    "@types/node": "^22.10.5",
     "@types/ssh2-sftp-client": "^9.0.4",
-    "ansi-colors": "^4.1.3",
-    "esbuild": "^0.24.0",
-    "eslint": "^9.17.0",
-    "globals": "^15.14.0",
+    "esbuild": "^0.25.5",
+    "eslint": "^9.28.0",
+    "eslint-config-prettier": "^10.1.5",
+    "eslint-plugin-prettier": "^5.4.1",
+    "eslint-plugin-simple-import-sort": "^12.1.1",
+    "globals": "^16.2.0",
+    "inquirer": "^12.6.3",
+    "prettier": "3.5.3",
     "ts-node": "^10.9.2",
-    "tsconfig-paths": "^4.2.0",
-    "typescript": "^5.7.3",
-    "typescript-eslint": "^8.19.1"
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.33.0"
   },
   "dependencies": {
-    "axios": "^1.7.9",
-    "csv-parser": "^3.1.0",
+    "csv-parser": "^3.2.0",
     "csv-writer": "^1.6.0",
-    "dotenv": "^16.4.7",
     "ftp": "^0.3.10",
+    "ssh2-sftp-client": "^12.0.0",
+    "dotenv": "^16.5.0",
     "moment": "^2.30.1",
     "node-schedule": "^2.1.1",
-    "ssh2-sftp-client": "^11.0.0"
-  },
-  "packageManager": "pnpm@9.15.3"
+    "tsconfig-paths": "^4.2.0",
+    "winston": "^3.17.0"
+  }
 }

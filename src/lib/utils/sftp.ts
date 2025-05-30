@@ -1,7 +1,8 @@
 import SftpClient from 'ssh2-sftp-client'
-import { Logger } from '@/libs'
 
-// Funzione per caricare un file su SFTP
+import { error, info } from '@/lib'
+
+// Upload a file to SFTP
 export async function uploadToSftp(
   host: string,
   port: number,
@@ -9,21 +10,22 @@ export async function uploadToSftp(
   password: string,
   localFilePath: string,
   remoteFilePath: string
-) {
+): Promise<void> {
   const sftp = new SftpClient()
 
   try {
     await sftp.connect({ host, port, username: user, password })
     await sftp.put(localFilePath, remoteFilePath)
-    Logger.info(`File caricato con successo su SFTP: ${remoteFilePath}`)
-  } catch (error: any) {
-    Logger.err(`Errore nel caricamento su SFTP: ${error.message}`)
+    info(`✅ File successfully uploaded to SFTP: ${remoteFilePath}`)
+  } catch (err: any) {
+    error(`❌ SFTP upload failed: ${err.message}`)
+    throw new Error(`SFTP upload failed: ${err.message}`)
   } finally {
-    sftp.end()
+    await sftp.end()
   }
 }
 
-// Funzione per scaricare un file da SFTP
+// Download a file from SFTP
 export async function downloadFromSftp(
   host: string,
   port: number,
@@ -31,16 +33,17 @@ export async function downloadFromSftp(
   password: string,
   remoteFilePath: string,
   localFilePath: string
-) {
+): Promise<void> {
   const sftp = new SftpClient()
 
   try {
     await sftp.connect({ host, port, username: user, password })
     await sftp.get(remoteFilePath, localFilePath)
-    Logger.info(`File scaricato con successo da SFTP: ${localFilePath}`)
-  } catch (error: any) {
-    Logger.err(`Errore nel download da SFTP: ${error.message}`)
+    info(`✅ File successfully downloaded from SFTP: ${localFilePath}`)
+  } catch (err: any) {
+    error(`❌ SFTP download failed: ${err.message}`)
+    throw new Error(`SFTP download failed: ${err.message}`)
   } finally {
-    sftp.end()
+    await sftp.end()
   }
 }
